@@ -72,3 +72,58 @@ class Sale:
 
     def __str__(self):
         return f'Employee - {self.employee}, Book - {self.book}, Sale date - {self.sale_date}, Actual price - {self.actual_price}'
+    
+
+class Store:
+    def __init__(self):
+        self.books = []
+        self.employees = []
+        self.sales = []
+
+    def add_employee(self, employee):
+        self.employees.append(employee)
+
+    def remove_employee(self, employee):
+        self.employees = [e for e in self.employees if e.name != employee.name]
+
+    def add_book(self, book):
+        self.books.append(book)
+
+    def remove_book(self, book):
+        self.books = [b for b in self.books if b.title != book.title]
+
+    def add_sale(self, sale):
+        self.sales.append(sale)
+
+    def remove_sale(self, sale):
+        self.sales = [s for s in self.sales if not (s.employee.name == sale.employee.name and s.book.title == sale.book.title and s.sale_date == sale.sale_date)]
+
+    def get_employees(self):
+        return '\n'.join(str(i) for i in self.employees)
+
+    def get_books(self):
+        return '\n'.join(str(i) for i in self.books)
+
+    def get_sales(self):
+        return '\n'.join(str(i) for i in self.sales)
+
+    def to_dict(self):
+        return {
+            'employees': [employee.to_dict() for employee in self.employees],
+            'books': [book.to_dict() for book in self.books],
+            'sales': [sale.to_dict() for sale in self.sales]
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        store = cls()
+        store.employees = [Employee.from_dict(emp) for emp in data['employees']]
+        store.books = [Book.from_dict(book) for book in data['books']]
+        store.sales = [Sale.from_dict(sale) for sale in data['sales']]
+        return store
+
+    def __str__(self):
+        return f'Employees - {self.get_employees()}, Books - {self.get_books()}, Sales - {self.get_sales()}'
+
+    def get_sales_by_date(self, date):
+        return [str(sale) for sale in self.sales if sale.sale_date == date]
