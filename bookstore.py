@@ -1,5 +1,6 @@
 import json
 
+
 class Book:
     def __init__(self, title, year, author, genre, cost, potential_price):
         self.title = title
@@ -25,3 +26,26 @@ class Book:
 
     def __str__(self):
         return f'Title - {self.title}, Year - {self.year}, Author - {self.author}, Genre - {self.genre}, Cost - {self.cost}, Potential price - {self.potential_price}'
+    
+
+class Employee:
+    def __init__(self, name, position, phone, email):
+        self.name = name
+        self.position = position
+        self.phone = phone
+        self.email = email
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'position': self.position,
+            'phone': self.phone,
+            'email': self.email
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data['name'], data['position'], data['phone'], data['email'])
+
+    def __str__(self):
+        return f'Name - {self.name}, Position - {self.position}, Phone - {self.phone}, Email - {self.email}'
