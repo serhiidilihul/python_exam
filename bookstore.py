@@ -200,3 +200,99 @@ def load_data(filename):
     except Exception as e:
         print(str(e))
         return None
+
+
+class Menu:
+    def __init__(self, store):
+        self.store = store
+
+    @staticmethod
+    def display_menu():
+        print('1. Add employee')
+        print('2. Remove employee')
+        print('3. Add book')
+        print('4. Remove book')
+        print('5. Add sale')
+        print('6. Remove sale')
+        print('7. View all employees')
+        print('8. View all books')
+        print('9. View all sales')
+        print('10. View sales by date')
+        print('11. View sales by period')
+        print('12. View sales by employee')
+        print('13. View bestsellers')
+        print('14. View top employee')
+        print('15. View total profit')
+        print('16. View top author')
+        print('17. View top genre')
+        print('18. Save data')
+        print('19. Load data')
+        print('20. Exit')
+
+    def __add_employee(self):
+        name = input('Enter Employee\'s name: ')
+        position = input('Enter Employee\'s position: ')
+        phone = input('Enter Employee\'s phone: ')
+        email = input('Enter Employee\'s email: ')
+        employee = Employee(name, position, phone, email)
+        self.store.add_employee(employee)
+        print(f'Employee "{name}" was successfully added')
+
+    def __remove_employee(self):
+        name = input('Enter Employee\'s name you want to delete: ')
+        employee = next((e for e in self.store.employees if e.name == name), None)
+        if employee:
+            self.store.remove_employee(employee)
+            print(f'Employee "{name}" was successfully deleted')
+        else:
+            print(f'Employee "{name}" not found')
+
+    def __add_book(self):
+        title = input('Enter Book\'s title: ')
+        year = input('Enter Book\'s year: ')
+        author = input('Enter Book\'s author: ')
+        genre = input('Enter Book\'s genre: ')
+        cost = float(input('Enter Book\'s cost: '))
+        potential_price = float(input('Enter Book\'s potential price: '))
+        book = Book(title, year, author, genre, cost, potential_price)
+        self.store.add_book(book)
+        print(f'Book "{title}" was successfully added')
+
+    def __remove_book(self):
+        title = input('Enter Book\'s title you want to delete: ')
+        book = next((b for b in self.store.books if b.title == title), None)
+        if book:
+            self.store.remove_book(book)
+            print(f'Book "{title}" was successfully deleted')
+        else:
+            print(f'Book "{title}" not found')
+
+    def __add_sale(self):
+        employee_name = input('Enter Employee\'s name: ')
+        book_title = input('Enter Book\'s title: ')
+        sale_date = input('Enter Sale\'s date: ')
+        actual_price = float(input('Enter Sale\'s actual price: '))
+        employee = next((e for e in self.store.employees if e.name == employee_name), None)
+        book = next((b for b in self.store.books if b.title == book_title), None)
+        if employee and book:
+            sale = Sale(employee, book, sale_date, actual_price)
+            self.store.add_sale(sale)
+            print('Sale was successfully added')
+        else:
+            print('Employee or Book not found')
+
+    def __remove_sale(self):
+        employee_name = input('Enter Employee\'s name: ')
+        book_title = input('Enter Book\'s title: ')
+        sale_date = input('Enter Sale\'s date: ')
+        employee = next((e for e in self.store.employees if e.name == employee_name), None)
+        book = next((b for b in self.store.books if b.title == book_title), None)
+        if employee and book:
+            sale = next((s for s in self.store.sales if s.employee == employee and s.book == book and s.sale_date == sale_date), None)
+            if sale:
+                self.store.remove_sale(sale)
+                print('Sale was successfully deleted')
+            else:
+                print('Sale not found')
+        else:
+            print('Employee or Book not found')
