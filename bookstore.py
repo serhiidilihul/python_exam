@@ -179,3 +179,24 @@ class Store:
             else:
                 top_genres[sale.book.genre] = 1
         return max(top_genres.items(), key=lambda x: x[1])
+    
+
+def save_data(store, filename):
+    try:
+        with open(filename, 'w') as f:
+            json.dump(store.to_dict(), f)
+        print(f'Data was successfully saved to {filename}')
+    except Exception as e:
+        print(str(e))
+
+
+def load_data(filename):
+    try:
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        store = Store.from_dict(data)
+        print(f'Data was successfully loaded from {filename}')
+        return store
+    except Exception as e:
+        print(str(e))
+        return None
