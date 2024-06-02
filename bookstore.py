@@ -49,3 +49,26 @@ class Employee:
 
     def __str__(self):
         return f'Name - {self.name}, Position - {self.position}, Phone - {self.phone}, Email - {self.email}'
+    
+
+class Sale:
+    def __init__(self, employee, book, sale_date, actual_price):
+        self.employee = employee
+        self.book = book
+        self.sale_date = sale_date
+        self.actual_price = actual_price
+
+    def to_dict(self):
+        return {
+            'employee': self.employee.to_dict(),
+            'book': self.book.to_dict(),
+            'sale_date': self.sale_date,
+            'actual_price': self.actual_price
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(Employee.from_dict(data['employee']), Book.from_dict(data['book']), data['sale_date'], data['actual_price'])
+
+    def __str__(self):
+        return f'Employee - {self.employee}, Book - {self.book}, Sale date - {self.sale_date}, Actual price - {self.actual_price}'
