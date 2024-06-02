@@ -296,3 +296,67 @@ class Menu:
                 print('Sale not found')
         else:
             print('Employee or Book not found')
+
+    
+    def execute_choice(self):
+        choice = input('Enter your choice -->   ')
+        if choice == '1':
+            self.__add_employee()
+        elif choice == '2':
+            self.__remove_employee()
+        elif choice == '3':
+            self.__add_book()
+        elif choice == '4':
+            self.__remove_book()
+        elif choice == '5':
+            self.__add_sale()
+        elif choice == '6':
+            self.__remove_sale()
+        elif choice == '7':
+            print(self.store.get_employees())
+        elif choice == '8':
+            print(self.store.get_books())
+        elif choice == '9':
+            print(self.store.get_sales())
+        elif choice == '10':
+            date = input('Enter date: ')
+            print(self.store.get_sales_by_date(date))
+        elif choice == '11':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_sales_by_period(start_date, end_date))
+        elif choice == '12':
+            employee_name = input('Enter Employee\'s name: ')
+            print(self.store.get_sales_by_employee(employee_name))
+        elif choice == '13':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_bestsellers(start_date, end_date))
+        elif choice == '14':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_top_employee(start_date, end_date))
+        elif choice == '15':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_total_profit(start_date, end_date))
+        elif choice == '16':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_top_author(start_date, end_date))
+        elif choice == '17':
+            start_date = input('Enter start date: ')
+            end_date = input('Enter end date: ')
+            print(self.store.get_top_genre(start_date, end_date))
+        elif choice == '18':
+            filepath = input('Enter path to file you want to save data to: ')
+            save_data(self.store, filepath)
+        elif choice == '19':
+            filepath = input('Enter path to file you want to load data from: ')
+            loaded_store = load_data(filepath)
+            if loaded_store:
+                self.store = loaded_store
+        elif choice == '20':
+            exit()
+        else:
+            print('Invalid choice')
