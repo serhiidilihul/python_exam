@@ -127,3 +127,55 @@ class Store:
 
     def get_sales_by_date(self, date):
         return [str(sale) for sale in self.sales if sale.sale_date == date]
+    
+    def get_sales_by_period(self, start_date, end_date):
+        return [sale for sale in self.sales if start_date <= sale.sale_date <= end_date]
+
+    def get_sales_by_employee(self, employee_name):
+        return [sale for sale in self.sales if sale.employee.name == employee_name]
+
+    def get_bestsellers(self, start_date, end_date):
+        sales_by_period = self.get_sales_by_period(start_date, end_date)
+        bestsellers = {}
+        for sale in sales_by_period:
+            if sale.book.title in bestsellers:
+                bestsellers[sale.book.title] += 1
+            else:
+                bestsellers[sale.book.title] = 1
+        return bestsellers
+
+    def get_top_employee(self, start_date, end_date):
+        sales_by_period = self.get_sales_by_period(start_date, end_date)
+        top_employees = {}
+        for sale in sales_by_period:
+            if sale.employee.name in top_employees:
+                top_employees[sale.employee.name] += 1
+            else:
+                top_employees[sale.employee.name] = 1
+        return max(top_employees.items(), key=lambda x: x[1])
+
+    def get_total_profit(self, start_date, end_date):
+        total_profit = 0
+        for sale in self.get_sales_by_period(start_date, end_date):
+            total_profit += sale.actual_price - sale.book.cost
+        return total_profit
+
+    def get_top_author(self, start_date, end_date):
+        sales_by_period = self.get_sales_by_period(start_date, end_date)
+        top_authors = {}
+        for sale in sales_by_period:
+            if sale.book.author in top_authors:
+                top_authors[sale.book.author] += 1
+            else:
+                top_authors[sale.book.author] = 1
+        return max(top_authors.items(), key=lambda x: x[1])
+
+    def get_top_genre(self, start_date, end_date):
+        sales_by_period = self.get_sales_by_period(start_date, end_date)
+        top_genres = {}
+        for sale in sales_by_period:
+            if sale.book.genre in top_genres:
+                top_genres[sale.book.genre] += 1
+            else:
+                top_genres[sale.book.genre] = 1
+        return max(top_genres.items(), key=lambda x: x[1])
